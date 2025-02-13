@@ -12,7 +12,7 @@ BOOL CheckSystemLanguage(FILE *fp)
 
     if (langID == 0x0419 || langID == 0x0422) // 0x0419 = Russian, 0x0422 = Ukrainian
     {
-        fprintf(fp, "Pikabot detected Russian/Ukrainian system language. Exiting...\n");
+        fprintf(fp, "[!] Pikabot detected Russian/Ukrainian system language. Exiting...\n");
         return TRUE; // Exit execution
     }
 
@@ -23,12 +23,12 @@ BOOL CheckSystemLanguage(FILE *fp)
 BOOL CheckMutex(FILE *fp)
 {
     HANDLE hMutex = CreateMutex(NULL, TRUE, MUTEX_NAME);
-    if (GetLastError() == ERROR_ALREADY_EXISTS)
+    if (GetLastError() == ERROR_ALREADY_EXISTS || hMutex == NULL)
     {
-        fprintf(fp, "Another instance is already running. Exiting...\n");
+        fprintf(fp, "[!] Another instance is already running. Exiting...\n");
         return TRUE; // Exit execution
     }
-
+    ReleaseMutex(hMutex);
     return FALSE; // Continue execution
 }
 
@@ -46,5 +46,5 @@ __declspec(dllexport) void RunNotSoHarmful()
         return; // Exit if language check or mutex fails
     }
 
-    fprintf(fp,"Pikabot Simulation Running Successfully!\n");
+    fprintf(fp,"[*] Pikabot Simulation Running Successfully!\n");
 }
