@@ -38,13 +38,13 @@
 
 ## 🔧 Compilation (Using `x86_64-w64-mingw32-gcc` on Linux)
 
-To compile the DLL on a **Linux system (Kali/WSL)**:
+To compile the DLL on a **Linux system**:
 
 ```bash
 x86_64-w64-mingw32-gcc -shared -o notsoharmfuldll.dll notsoharmfuldll.c -Wall
 ```
 
-✔ This generates ``, which can be executed on **Windows**.
+✔ This generates `notsoharmfuldll.dll`, which can be executed on **Windows**.
 
 ---
 
@@ -57,35 +57,5 @@ rundll32.exe notsoharmfuldll.dll,RunNotSoHarmful
 ```
 
 ---
-
-## 🛡 Detection & Defense (Blue Team)
-
-### ✅ **Detection (Windows Event Logs & Sysmon)**
-
-- **Monitor Mutex Creation** (`Sysmon Event ID 6`)
-- **Detect Rundll32 Execution** (`Sysmon Event ID 1`)
-- **Look for Language-Based Evasion** in `Event ID 4104` (PowerShell Script Logging)
-
-### ✅ **Mitigation Strategies**
-
-- Restrict execution of `rundll32` for unsigned DLLs
-- **Detect suspicious mutex names** using `Get-Process` in PowerShell:
-  ```powershell
-  Get-Process | Where-Object { $_.MainWindowTitle -match "Mutex" }
-  ```
-
----
-
-## 🏴‍☠️ Red Team Use Cases
-
-- **Simulate malware behavior** in controlled environments.
-- **Test security solutions** (EDR, SIEM) against **Pikabot-like evasion techniques**.
-- **Enhance Blue Team detection rules** by observing behavioral patterns.
-
----
-
-## 📜 License
-
-This project is licensed under the **MIT License**. See `LICENSE` for details.
 
 👨‍💻 Created for **cybersecurity research & education**. Use responsibly! 🚀
