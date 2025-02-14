@@ -32,7 +32,6 @@ BOOL CheckMutex(FILE *fp)
     return FALSE; // Continue execution
 }
 
-// Entry function for rundll32.exe
 __declspec(dllexport) void RunNotSoHarmful()
 {
     FILE *fp = fopen("output.txt", "a+"); // Open a file for writing
@@ -47,4 +46,22 @@ __declspec(dllexport) void RunNotSoHarmful()
     }
 
     fprintf(fp,"[*] Pikabot Simulation Running Successfully!\n");
+}
+
+BOOL APIENTRY DllMain(HMODULE hModule,
+    DWORD  ul_reason_for_call,
+    LPVOID lpReserved
+)
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        RunNotSoHarmful();
+        break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
+    return TRUE;
 }
